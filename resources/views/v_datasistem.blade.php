@@ -86,9 +86,14 @@ element.classList.add("active");
      const customFile = document.getElementById('customFile');
      const alert = document.getElementById('alert');
         btn_backup.addEventListener('click', function(e) {
+            // loading on button
+            btn_backup.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn_backup.disabled = true;
             fetch("/api/backup-database")
                 .then(response => response.json())
                 .then(data => {
+                    btn_backup.innerHTML = 'Backup';
+                    btn_backup.disabled = false;
                     alert.innerHTML = `
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <strong>Success!</strong> ${data.success}
@@ -100,27 +105,5 @@ element.classList.add("active");
                     console.log(data);
                 })
         })
-
-        // btn_restore.addEventListener('click', function(e) {
-        //     let file = customFile.files[0];
-        //     let formData = new FormData();
-        //     formData.append('file', file);
-        //     fetch("/api/restore-database", {
-        //             method: 'POST',
-        //             body: formData
-        //         })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             alert.innerHTML = `
-        //             <div class="alert alert-success alert-dismissible fade show" role="alert">
-        //                 <strong>Success!</strong> ${data.success}
-        //                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        //                     <span aria-hidden="true">&times;</span>
-        //                 </button>
-        //             </div>
-        //             `;
-        //             console.log(data);
-        //         })
-        // })
  </script>
  @endsection
