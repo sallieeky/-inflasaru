@@ -190,7 +190,7 @@
                               <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                               Profil
                           </a>
-                          <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                          <a class="dropdown-item" href="/logout">
                               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                               Logout
                           </a>
@@ -234,30 +234,10 @@
 <script src="{{ asset("template") }}/js/sb-admin-2.min.js"></script>
 
 
-<!-- Page level plugins -->
-
-
-
-<!-- Page level custom scripts -->
-
-
-<!-- Page level plugins -->
-
 <!-- Page level custom scripts -->
 <script src="{{ asset("template") }}/js/demo/chart-area-demo.js"></script>
 <script src="{{ asset("template") }}/js/demo/chart-pie-demo.js"></script>
-{{-- <script src="{{ asset("template") }}/js/demo/chart-bar-demo.js"></script> --}}
 
 </body>
 
 </html>
-
-
-
-{{-- @include('layout/v_header');
-@include('layout/v_sidenav');
-@include('layout/v_topbar');
-
-@yield("content")
-
-@include('layout/v_footer'); --}}
