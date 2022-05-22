@@ -32,11 +32,17 @@ class ArsipController extends Controller
     }
     public function tambahNoArsip(Request $request)
     {
+        $request->validate([
+            'no_arsip' => 'required|unique:arsips,no_arsip',
+        ]);
         Arsip::create($request->all());
         return back();
     }
     public function editNoArsip(Request $request, Arsip $arsip)
     {
+        $request->validate([
+            'no_arsip' => 'required|unique:arsips,no_arsip',
+        ]);
         $arsip->update($request->all());
         return back();
     }

@@ -125,6 +125,12 @@ INSERT INTO surat_keluars (`no_surat`, `tgl_dikirim`, `tujuan`, `perihal`, `id_d
 INSERT INTO surat_masuks (`no_surat`, `tgl_diterima`, `asal`, `perihal`, `id_disposisi`, `lampiran`, `id_arsip`, `created_at`, `updated_at`) VALUES 
 ('AWD','2022-05-22','AWd','dawd','10','Surat Edaran UAS Genap 2021.pdf','','2022-05-22 00:05:38','2022-05-22 00:18:41');
 
+INSERT INTO surat_masuks (`no_surat`, `tgl_diterima`, `asal`, `perihal`, `id_disposisi`, `lampiran`, `id_arsip`, `created_at`, `updated_at`) VALUES 
+('SK_001','2022-06-17','adad','Pelapd','10','Kliping Shopi.pdf','','2022-05-22 14:02:57','2022-05-22 14:02:57');
+
+INSERT INTO surat_masuks (`no_surat`, `tgl_diterima`, `asal`, `perihal`, `id_disposisi`, `lampiran`, `id_arsip`, `created_at`, `updated_at`) VALUES 
+('WADA','2022-06-17','BABABA','awdadw','6','Kliping Shopi.pdf','','2022-05-23 06:28:15','2022-05-23 06:28:15');
+
 INSERT INTO users (`foto`, `nama`, `role`, `email`, `username`, `email_verified_at`, `id_subbagian`, `password`, `notelp`, `alamat`, `remember_token`, `created_at`, `updated_at`) VALUES 
 ('default_user.png','Admin','admin','admin@gmail.com','admin','','1','$2y$10$GUB4DF/3YLglXx.WFiZpGe/TmB8cIibcRf.sHlIKHRQrYgkQCVvd6','08123456789','Jl. Kebon Jeruk No. 1','','2022-05-22 02:34:15','2022-05-22 02:34:15');
 

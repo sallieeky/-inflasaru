@@ -18,9 +18,44 @@ class DashboardController extends Controller
         $surat_masuk = SuratMasuk::all()->count();
         $surat_keluar = SuratKeluar::all()->count();
 
+        // count surat masuk per bulan dan bulan menggunakan nama bulan
+        $bulan = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        ];
+
+        $count_surat_masuk = [];
+        $count_surat_keluar = [];
+
+        for ($i = 0; $i < 12; $i++) {
+            $count_surat_masuk[$i]["bulan"] = $bulan[$i];
+            $count_surat_masuk[$i]["jumlah"] = SuratMasuk::whereMonth('tgl_diterima', '=', $i + 1)->count();
+            $count_surat_keluar[$i]["bulan"] = $bulan[$i];
+            $count_surat_keluar[$i]["jumlah"] = SuratKeluar::whereMonth('tgl_dikirim', '=', $i + 1)->count();
+        }
+
+        // return $count_surat_masuk;
+
+        $surat_masuk_per_bulan = SuratMasuk::select(DB::raw('count(*) as jumlah, MONTH(tgl_diterima) as bulan'))
+            ->where('tgl_diterima', '>=', date('Y-m-d'))
+            ->groupBy('bulan')
+            ->get();
+
+        // return $surat_masuk_per_bulan;
+
         $surat_masuk_harian = SuratMasuk::where('tgl_diterima', date('Y-m-d'))->get()->count();
         $surat_keluar_harian = SuratKeluar::where('tgl_dikirim', date('Y-m-d'))->get()->count();
-        return view('v_home', compact('surat_masuk', 'surat_keluar', 'surat_masuk_harian', 'surat_keluar_harian'));
+        return view('v_home', compact('surat_masuk', 'surat_keluar', 'surat_masuk_harian', 'surat_keluar_harian', 'surat_masuk_per_bulan', 'count_surat_masuk', 'count_surat_keluar'));
     }
     public function profil()
     {
@@ -121,14 +156,14 @@ class DashboardController extends Controller
             }
         }
 
-        $file_name = __DIR__ . '/../../../public/storage/backup/database_backup_on_' . date('y_m_d') . '.sql';
+        $file_name = __DIR__ . '/../../../public/storage/backup/database_backup_on_' . date('d_m_Y') . '.sql';
         $file_handle = fopen($file_name, 'w +');
 
 
         $output = $structure . $data;
         fwrite($file_handle, $output);
         fclose($file_handle);
-        return response()->json(['success' => 'Berhasil Backup Database']);
+        return response()->json(['success' => $output]);
     }
     public function restoreDatabase(Request $request)
     {
@@ -147,7 +182,7 @@ class DashboardController extends Controller
             }
         }
 
-        return back()->with('success', 'Berhasil Restore Database');
+        return back()->with('success', $content);
     }
 
 
