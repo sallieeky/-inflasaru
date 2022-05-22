@@ -1,0 +1,26 @@
+Pelayanan umum, tata pemerintahan, pemberdayaan masyarakat, umum, perencanaan & keuangan, PSDA, Trantib, Umum
+kepala camat, sekertaris camat, selesai 
+
+user
+  1. nama
+  2. id_subbagian
+  3. email
+  4. username
+  5. password
+  6. notelp
+  7. alamat
+  8. foto
+
+surat masuk & keluar
+  1. nomor_surat
+  2. tgl_diterima
+  3. asal
+  4. perihal
+  5. id_disposisi
+  6. lampiran
+  7. no_arsip
+
+nomor arsip surat masuk & keluar
+  1. nomor_arsip
+  2. lokasi
+  3. banyak surat
