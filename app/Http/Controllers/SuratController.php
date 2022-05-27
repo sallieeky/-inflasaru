@@ -33,7 +33,7 @@ class SuratController extends Controller
     public function editSuratKeluar(Request $request, SuratKeluar $suratkeluar)
     {
         $request->validate([
-            'no_surat' => 'required|unique:surat_keluars,no_surat',
+            'no_surat' => 'required',
             'tgl_dikirim' => 'required',
             'tujuan' => 'required',
             'perihal' => 'required',
@@ -94,7 +94,7 @@ class SuratController extends Controller
     public function editSuratMasuk(Request $request, SuratMasuk $suratmasuk)
     {
         $request->validate([
-            'no_surat' => 'required|unique:surat_masuks,no_surat',
+            'no_surat' => 'required',
             'tgl_diterima' => 'required',
             'asal' => 'required',
             'perihal' => 'required',
