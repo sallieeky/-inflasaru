@@ -23,12 +23,15 @@ class SuratController extends Controller
             'tujuan' => 'required',
             'perihal' => 'required',
             'id_disposisi' => 'required',
+        ], [
+            'no_surat.required' => 'No Surat tidak boleh kosong',
+            'no_surat.unique' => 'No Surat sudah terpakai',
         ]);
         $request["lampiran"] = $request->file("file")->getClientOriginalName();
         $request->file("file")->storeAs("public/surat_keluar", $request["lampiran"]);
 
         SuratKeluar::create($request->all());
-        return back();
+        return back()->with('pesan', 'Data berhasil ditambahkan');
     }
     public function editSuratKeluar(Request $request, SuratKeluar $suratkeluar)
     {
@@ -47,12 +50,12 @@ class SuratController extends Controller
         }
 
         $suratkeluar->update($request->all());
-        return back();
+        return back()->with('pesan', 'Data berhasil diubah');
     }
     public function hapusSuratKeluar(SuratKeluar $suratkeluar)
     {
         $suratkeluar->delete();
-        return back();
+        return back()->with('pesan', 'Data berhasil dihapus');
     }
 
     public function suratMasuk()
@@ -84,12 +87,14 @@ class SuratController extends Controller
             'asal' => 'required',
             'perihal' => 'required',
             'id_disposisi' => 'required',
+        ], [
+            'no_surat.unique' => 'No Surat sudah terpakai',
         ]);
         $request["lampiran"] = $request->file("file")->getClientOriginalName();
         $request->file("file")->storeAs("public/surat_masuk", $request["lampiran"]);
 
         SuratMasuk::create($request->all());
-        return back();
+        return back()->with("pesan", "Data surat berhasil ditambahkan");
     }
     public function editSuratMasuk(Request $request, SuratMasuk $suratmasuk)
     {
@@ -108,11 +113,11 @@ class SuratController extends Controller
         }
 
         $suratmasuk->update($request->all());
-        return back();
+        return back()->with("pesan", "Data surat berhasil diubah");
     }
     public function hapusSuratMasuk(SuratMasuk $suratmasuk)
     {
         $suratmasuk->delete();
-        return back();
+        return back()->with("pesan", "Data surat berhasil dihapus");
     }
 }

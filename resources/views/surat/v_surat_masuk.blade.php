@@ -18,6 +18,11 @@
 
 
          <div class="card-body pt-0">
+             @if(session("pesan"))
+                <div class="alert alert-success">
+                    {{session("pesan")}}
+                </div>
+             @endif
              <div class="table-responsive">
                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                      <thead>
@@ -85,7 +90,12 @@
                              <div class="col-md">
                                  <div class="form-group">
                                      <label>Nomor Surat</label>
-                                     <input type="text" name="no_surat" class="form-control" required>
+                                     <input type="text" name="no_surat" class="form-control @error("no_surat") is-invalid @enderror" required value="{{ old("no_surat") }}">
+                                        @error("no_surat")
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                  </div>
                                  <div class="form-group">
                                      <label>Tanggal Diterima</label>
@@ -93,22 +103,20 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                          </div>
-                                         <input type="date" name="tgl_diterima" class="form-control" required
-                                             data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy"
-                                             data-mask>
+                                         <input type="date" name="tgl_diterima" class="form-control" required value="{{ old("tgl_diterima") }}">
                                      </div>
                                  </div>
                                  <div class="form-group">
                                      <label>Asal</label>
                                      <input type="text" name="asal" class="form-control" placeholder="Asal Surat"
-                                         required>
+                                         required value="{{ old("asal") }}">
                                  </div>
                              </div>
                              <div class="col-md">
                                  <div class="form-group">
                                      <label>Perihal</label>
-                                     <input type="text" name="perihal" class="form-control"
-                                         placeholder="Perihal Surat" required>
+                                        <input type="text" name="perihal" class="form-control" placeholder="Perihal Surat"
+                                            required value="{{ old("perihal") }}">
                                  </div>
                                  <div class="form-group">
                                      <label>Disposisi</label>
@@ -289,5 +297,21 @@ element.classList.add("active");
                 .then(data => {})
             });
         });
+ </script>
+ @endsection
+ @section("script")
+ <script>
+    $(document).ready(function(){
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").html(fileName);
+        });
+
+        @error("no_surat")
+            $('#add_surat_masuk').modal('show')
+        @enderror
+
+
+    });
  </script>
  @endsection

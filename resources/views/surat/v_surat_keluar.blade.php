@@ -16,6 +16,11 @@
              <a href="" class="btn btn-primary" data-toggle="modal" data-target="#add_surat_keluar">+Tambah Data</a>
          </div>
          <div class="card-body pt-0">
+            @if(session("pesan"))
+            <div class="alert alert-success">
+                {{session("pesan")}}
+            </div>
+            @endif
              <div class="table-responsive">
                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                      <thead>
@@ -72,7 +77,12 @@
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label>Nomor Surat</label>
-                                        <input type="text" name="no_surat" class="form-control" required>
+                                        <input type="text" name="no_surat" class="form-control @error("no_surat") is-invalid @enderror" required   value="{{ old("no_surat") }}">
+                                        @error("no_surat")
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Tanggal Dikirim</label>
@@ -82,7 +92,7 @@
                                             </div>
                                             <input type="date" name="tgl_dikirim" class="form-control" required
                                                 data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy"
-                                                data-mask>
+                                                data-mask value="{{ old("tgl_dikirim") }}">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -240,114 +250,6 @@
         <!-- /.modal-dialog -->
         @endforeach
 
-     <!-- modal -->
-     {{-- <div class="modal fade" id="add_surat_keluar">
-         <div class="modal-dialog modal-lg">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h4 class="modal-title">Tambah Data</h4>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                     </button>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                     <form action="http://localhost/pengarsipan/admin/tambahsm" enctype="multipart/form-data"
-                         method="post" accept-charset="utf-8">
-                         <div class="card-body row">
-                             <div class="col-md">
-                                 <div class="form-group">
-                                     <label>Nomor Surat</label>
-                                     <input type="text" name="no_suratmasuk" class="form-control">
-                                 </div>
-                                 <div class="form-group">
-                                     <label>Tanggal Diterima</label>
-                                     <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                         </div>
-                                         <input type="date" name="tanggal_masuk" value="2022-04-25" class="form-control"
-                                             data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy"
-                                             data-mask>
-                                     </div>
-                                 </div>
-                                 <div class="form-group">
-                                     <label>Tujuan</label>
-                                     <input type="text" name="asal_surat" class="form-control"
-                                         placeholder="Tujuan Surat" required="">
-                                 </div>
-
-
-                             </div>
-                             <div class="col-md">
-                                 <div class="form-group">
-                                     <label>Perihal</label>
-                                     <input type="text" name="asal_surat" class="form-control"
-                                         placeholder="Perihal Surat" required="">
-                                 </div>
-                                 <div class="form-group">
-                                     <label>Disposisi</label>
-                                     <select class="form-control" name="id_indeks">
-                                         <option selected>Pilih</option>
-                                         <option value="1">
-                                             PERENCANAAN </option>
-                                         <option value="2">
-                                             KEUANGAN </option>
-                                         <option value="6">
-                                             KETATA USAHAAN </option>
-                                         <option value="10">
-                                             SARANA DAN PRASARANA </option>
-                                         <option value="11">
-                                             KESENIAN </option>
-                                         <option value="19">
-                                             KEPEGAWAIAN </option>
-                                         <option value="20">
-                                             PERLENGKAPAN </option>
-                                         <option value="21">
-                                             ORGANISASI </option>
-                                         <option value="22">
-                                             PENDIDIKAN </option>
-                                         <option value="23">
-                                             KURIKULUM/PENGAWASAN </option>
-                                         <option value="24">
-                                             OLAHRAGA </option>
-                                     </select>
-                                 </div>
-                                 <div class="form-group">
-                                     <label>Lampiran</label>
-                                     <div class="input-group">
-                                         <div class="custom-file">s
-                                             <input type="file" name="berkas_suratmasuk" class="custom-file-input">
-                                             <label class="custom-file-label">Pilih dokumen</label>
-                                         </div>
-                                     </div>
-                                     <small class="text-danger">Dokumen surat, bisa berupa doc, docx, pdf, jpg dan
-                                         png.</small>
-                                 </div>
-
-                             </div>
-
-                             <!-- <div class="form-group">
-                                        <label>Keterangan</label>
-                                        <textarea class="form-control" name="keterangan"
-                                            placeholder="Keterangan"></textarea>
-                                    </div> -->
-                         </div>
-                 </div>
-                 <!-- /.card-body -->
-                 </p>
-                 <div class="modal-footer justify-content-between">
-                     <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                     <button type="submit" name="tambah" class="btn btn-primary">Tambah</button>
-                 </div>
-             </div>
-
-             </form>
-         </div>
-         <!-- /.modal-content -->
-     </div> --}}
-     <!-- /.modal-dialog -->
-
  </div>
  <!-- /.container-fluid -->
 
@@ -361,5 +263,21 @@ var element2 = document.querySelector("#collapsesurat");
 element2.classList.add("show");
 element1.classList.add("active");
 element.classList.add("active");
+ </script>
+ @endsection
+ @section("script")
+ <script>
+    $(document).ready(function(){
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").html(fileName);
+        });
+
+        @error("no_surat")
+            $('#add_surat_keluar').modal('show')
+        @enderror
+
+
+    });
  </script>
  @endsection

@@ -24,8 +24,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-sistem', [DashboardController::class, 'dataSistem']);
     Route::post('/restore-database', [DashboardController::class, 'restoreDatabase']);
 
-
-
     Route::get('/data-user', [DashboardController::class, 'dataUser']);
     Route::post('/data-user/tambah', [DashboardController::class, 'tambahUser']);
     Route::post('/data-user/edit/{user}', [DashboardController::class, 'editUser']);
@@ -46,10 +44,8 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/arsip/surat-masuk', [ArsipController::class, 'suratMasuk']);
   Route::get('/arsip/surat-keluar', [ArsipController::class, 'suratKeluar']);
 
-
   Route::get('/laporan/surat-masuk', [LaporanController::class, 'suratMasuk']);
   Route::get('/laporan/surat-keluar', [LaporanController::class, 'suratKeluar']);
-
 
   Route::get('/surat/surat-masuk', [SuratController::class, 'suratMasuk']);
   Route::post('/surat/surat-masuk/tambah', [SuratController::class, 'tambahSuratMasuk']);
