@@ -36,6 +36,14 @@
                                 <input type="file" name="gambar" class="d-none" id="foto" accept="image/*">
                                 <div class="card-body row">
                                     <div class="col-md">
+                                        @if(session("pesan"))
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            {{ session("pesan") }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        @endif
                                         <div class="form-group">
                                             <label>Nama</label>
                                             <input type="text" disabled value="{{ Auth::user()->nama }}" class="form-control">
@@ -90,30 +98,50 @@
         <div class="col-xl-6 col-md-6 mb-4">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h4 class="m-0 font-weight-bold text-primary text-center ">PASSWORD</h4>
+                    <h4 class="m-0 font-weight-bold text-primary text-center ">AKUN</h4>
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-md-10">
 
+                            @if(session("success"))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session("success") }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @endif
 
                             <form action="/profil/ganti-password/{{ Auth::user()->id }}" enctype="multipart/form-data"
                                 method="post" accept-charset="utf-8">
                                 @csrf
                                 <div class="card-body row">
                                     <div class="col-md">
+                                        {{-- username --}}
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" name="username" class="form-control @error("username") is-invalid @enderror" placeholder=""
+                                                value="{{ Auth::user()->username }}" required>
+                                            @error("username")
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+
+
                                         <div class="form-group">
                                             <label>Password Lama</label>
-                                            <input type="text" name="password_lama" class="form-control @if(session('error')) is-invalid @endif">
+                                            <input type="text" name="password_lama" required class="form-control @if(session('error')) is-invalid @endif">
                                             @if(session('error'))
                                                 <small class="text-danger">{{ session("error") }}</small>
                                             @endif
                                         </div>
                                         <div class="form-group">
                                             <label>Password Baru</label>
-                                            <input type="text" name="password_baru" class="form-control">
+                                            <input type="text" name="password_baru" required class="form-control">
                                         </div>
-
                                     </div>
                                 </div>
 

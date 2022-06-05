@@ -69,17 +69,26 @@ class DashboardController extends Controller
             $request->file('gambar')->storeAs('public/foto', $request["foto"]);
         }
         $user->update($request->all());
-        return back();
+        return back()->with('pesan', 'Berhasil mengupdate data profil');
     }
     public function gantiPasswordProfil(Request $request, User $user)
     {
+        $request->validate([
+            'password_lama' => 'required',
+            "username" => "required|unique:users,username," . $user->id,
+        ],[
+            'password_lama.required' => 'Password tidak boleh kosong',
+            "username.unique" => "Username sudah digunakan",
+            "username.required" => "Username tidak boleh kosong",
+        ]);
+
         // cek apakah password lama sama dengan password yang ada di database
         if (Auth::attempt(['username' => $user->username, 'password' => $request->password_lama])) {
-            $user->update(['password' => bcrypt($request->password_baru)]);
+            $user->update(['password' => bcrypt($request->password_baru), "username" => $request->username]);
         } else {
             return back()->with('error', 'Password lama tidak sama dengan password yang ada di database');
         }
-        return back();
+        return back()->with('success', 'Berhasil mengupdate data akun');
     }
 
 
@@ -204,6 +213,8 @@ class DashboardController extends Controller
             'alamat' => 'required',
             'username' => 'required|unique:users',
             'role' => 'required'
+        ], [
+            "username.unique" => "Username telah digunakan"
         ]);
         // cek apakah password dan konfirmasi password sama
         if ($request->password != $request->kpassword) {

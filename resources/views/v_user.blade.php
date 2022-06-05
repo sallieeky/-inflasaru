@@ -76,7 +76,7 @@
                              <div class="col-md">
                                  <div class="form-group">
                                      <label>Nama</label>
-                                     <input type="text" name="nama" class="form-control" required>
+                                     <input type="text" name="nama" class="form-control" required value="{{ old("nama") }}">
                                  </div>
 
                                  <div class="form-group">
@@ -91,15 +91,20 @@
 
                                  <div class="form-group">
                                      <label>Email</label>
-                                     <input type="text" name="email" class="form-control" placeholder="" required>
+                                    <input type="email" name="email" class="form-control @error("email") is-invalid @enderror" required value="{{ old("email") }}">
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                  </div>
                                  <div class="form-group">
                                      <label>Nomor Telepon</label>
-                                     <input type="text" name="notelp" class="form-control" placeholder="" required>
+                                    <input type="text" name="notelp" class="form-control" required value="{{ old("notelp") }}">
                                  </div>
                                  <div class="form-group">
                                      <label>Alamat</label>
-                                     <textarea name="alamat" class="form-control" placeholder="" required></textarea>
+                                    <textarea name="alamat" class="form-control" required>{{ old("alamat") }}</textarea>
                                  </div>
 
 
@@ -107,7 +112,12 @@
                              <div class="col-md">
                                  <div class="form-group">
                                      <label>Username</label>
-                                     <input type="text" name="username" class="form-control" required>
+                                     <input type="text" name="username" class="form-control @error("username") is-invalid @enderror" required value="{{ old("username") }}">
+                                        @error('username')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                  </div>
                                  <div class="form-group">
                                      <label>Password</label>
@@ -134,7 +144,7 @@
                                      <div class="input-group">
                                          <div class="custom-file">
                                              <input type="file" name="file" class="custom-file-input" accept="image/png, image/jpeg">
-                                             <label class="custom-file-label">Pilih file</label>
+                                             <label class="custom-file-label" id="tambah-file">Pilih file</label>
                                          </div>
                                      </div>
                                      <small class="text-info">Upload foto dalam file png atau jpg.</small>
@@ -204,7 +214,7 @@
 
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="text" name="email" class="form-control" value="{{ $us->email }}" required>
+                                <input type="email" name="email" class="form-control" value="{{ $us->email }}" required>
                             </div>
                             <div class="form-group">
                                 <label>Nomor Telepon</label>
@@ -246,7 +256,7 @@
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" name="file" class="custom-file-input" accept="image/png, image/jpeg" >
-                                        <label class="custom-file-label">Pilih file</label>
+                                        <label class="custom-file-label" id="ubah-file-{{ $us->id }}">{{ $us->foto }}</label>
                                     </div>
                                 </div>
                                 <small class="text-info">Upload foto dalam file png atau jpg.</small>
@@ -300,5 +310,34 @@
  <script>
     var element = document.getElementById("datauser");
         element.classList.add("active");
+ </script>
+
+ <script>
+
+    $(document).ready(function(){
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").html(fileName);
+        });
+    });
+ </script>
+ @endsection
+ @section("script")
+ <script>
+    $(document).ready(function(){
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").html(fileName);
+        });
+
+        @error("email")
+            $('#add_user').modal('show')
+        @enderror
+        
+        @error("username")
+            $('#add_user').modal('show')
+        @enderror
+
+    });
  </script>
  @endsection
