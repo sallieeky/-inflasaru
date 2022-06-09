@@ -36,12 +36,17 @@ class SuratController extends Controller
     public function editSuratKeluar(Request $request, SuratKeluar $suratkeluar)
     {
         $request->validate([
-            'no_surat' => 'required',
+            'no_surat_edit_'.$suratkeluar->id => 'required|unique:surat_keluars,no_surat,' . $suratkeluar->id,
             'tgl_dikirim' => 'required',
             'tujuan' => 'required',
             'perihal' => 'required',
             // 'id_disposisi' => 'required',
+        ], [
+            'no_surat_edit_'.$suratkeluar->id.'.required' => 'No Surat tidak boleh kosong',
+            'no_surat_edit_'.$suratkeluar->id.'.unique' => 'No Surat sudah terpakai',
         ]);
+
+        $request["no_surat"] = $request["no_surat_edit_" . $suratkeluar->id];
         if ($request->file) {
             $request["lampiran"] = $request->file("file")->getClientOriginalName();
             $request->file("file")->storeAs("public/surat_keluar", $request["lampiran"]);
@@ -99,12 +104,15 @@ class SuratController extends Controller
     public function editSuratMasuk(Request $request, SuratMasuk $suratmasuk)
     {
         $request->validate([
-            'no_surat' => 'required',
+            'no_surat_edit_'.$suratmasuk->id => 'required|unique:surat_masuks,no_surat,' . $suratmasuk->id,
             'tgl_diterima' => 'required',
             'asal' => 'required',
             'perihal' => 'required',
             'id_disposisi' => 'required',
+        ], [
+            'no_surat_edit_'. $suratmasuk->id .'.unique' => 'No Surat sudah terpakai',
         ]);
+        $request["no_surat"] = $request["no_surat_edit_" . $suratmasuk->id];
         if ($request->file) {
             $request["lampiran"] = $request->file("file")->getClientOriginalName();
             $request->file("file")->storeAs("public/surat_masuk", $request["lampiran"]);

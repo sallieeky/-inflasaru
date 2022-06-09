@@ -12,6 +12,13 @@
          <div class="card-header py-3">
              <h6 class="h3 m-0 font-weight-bold text-primary">Data User</h6>
          </div>
+         @if(session('pesan'))
+            <div class="col-12 px-3 pt-3">
+                <div class="alert alert-success">
+                    {{session('pesan')}} 
+                </div>
+            </div>
+        @endif  
          <div class="p-3">
              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#add_user">+Tambah User</a>
          </div>
@@ -82,7 +89,6 @@
                                  <div class="form-group">
                                      <label>Sub Bagian</label>
                                      <select class="form-control" name="id_subbagian" required>
-                                         <option selected>Pilih</option>
                                          @foreach ($subbagian as $sb)
                                             <option value="{{ $sb->id }}">{{ $sb->nama }}</option>
                                          @endforeach
@@ -133,7 +139,6 @@
                                  <div class="form-group">
                                      <label>Level</label>
                                      <select class="form-control" name="role" required>
-                                         <option selected>Pilih</option>
                                          <option value="admin">ADMIN</option>
                                          <option value="user">PENGGUNA</option>
                                      </select>
@@ -337,6 +342,10 @@
         @error("username")
             $('#add_user').modal('show')
         @enderror
+
+        @if(session("pass_tambah"))
+            $('#add_user').modal('show')
+        @endif
 
     });
  </script>

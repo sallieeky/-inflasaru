@@ -74,20 +74,30 @@ class DashboardController extends Controller
     public function gantiPasswordProfil(Request $request, User $user)
     {
         $request->validate([
-            'password_lama' => 'required',
+            'password_baru' => 'required',
             "username" => "required|unique:users,username," . $user->id,
         ],[
-            'password_lama.required' => 'Password tidak boleh kosong',
+            'password_baru.required' => 'Password tidak boleh kosong',
             "username.unique" => "Username sudah digunakan",
             "username.required" => "Username tidak boleh kosong",
         ]);
 
         // cek apakah password lama sama dengan password yang ada di database
-        if (Auth::attempt(['username' => $user->username, 'password' => $request->password_lama])) {
-            $user->update(['password' => bcrypt($request->password_baru), "username" => $request->username]);
+        // if (Auth::attempt(['username' => $user->username, 'password' => $request->password_lama])) {
+        //     $user->update(['password' => bcrypt($request->password_baru), "username" => $request->username]);
+        // } else {
+        //     return back()->with('error', 'Password lama tidak sama dengan password yang ada di database');
+        // }
+
+        // cek apakah password_baru == password_baru_konfirmasi
+        if ($request->password_baru != $request->password_baru_konfirmasi) {
+            return back()->with('error', 'Password baru dan konfirmasi password baru tidak sama');
         } else {
-            return back()->with('error', 'Password lama tidak sama dengan password yang ada di database');
+            $user->update(['password' => bcrypt($request->password_baru), "username" => $request->username]);
         }
+
+
+
         return back()->with('success', 'Berhasil mengupdate data akun');
     }
 
@@ -178,7 +188,7 @@ class DashboardController extends Controller
     {
         $request->file('file')->storeAs('public/backup', $request->file('file')->getClientOriginalName());
         $file_name = __DIR__ . '/../../../public/storage/backup/' . $request->file('file')->getClientOriginalName();
-        $content = File::get($file_name);
+        $content = File::get($file_name); 
 
         $queries = explode(';', $content);
         foreach ($queries as $query) {
@@ -226,7 +236,7 @@ class DashboardController extends Controller
         }
         $request["password"] = bcrypt($request->password);
         User::create($request->all());
-        return back();
+        return back()->with("pesan", "Berhasil menambahkan user");
     }
     public function editUser(Request $request, User $user)
     {
@@ -257,11 +267,11 @@ class DashboardController extends Controller
         }
 
         $user->update($request->all());
-        return back();
+        return back()->with("pesan", "Berhasil mengubah user");
     }
     public function hapusUser(User $user)
     {
         $user->delete();
-        return redirect()->back();
+        return redirect()->back()->with("pesan", "Berhasil menghapus user");
     }
 }

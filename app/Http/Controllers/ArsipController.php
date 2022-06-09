@@ -36,15 +36,15 @@ class ArsipController extends Controller
             'no_arsip' => 'required|unique:arsips,no_arsip',
         ]);
         Arsip::create($request->all());
-        return back();
+        return back()->with("pesan", "No Arsip Berhasil Ditambahkan");
     }
     public function editNoArsip(Request $request, Arsip $arsip)
     {
         $request->validate([
-            'no_arsip' => 'required|unique:arsips,no_arsip',
+            'no_arsip' => 'required|unique:arsips,no_arsip,' . $arsip->id,
         ]);
         $arsip->update($request->all());
-        return back();
+        return back()->with("pesan", "No Arsip Berhasil Diubah");
     }
     public function hapusNoArsip(Arsip $arsip)
     {
@@ -53,6 +53,6 @@ class ArsipController extends Controller
             ->update(["id_arsip" => null]);
         SuratKeluar::where("id_arsip", $arsip->id)
             ->update(["id_arsip" => null]);
-        return back();
+        return back()->with("pesan", "No Arsip Berhasil Dihapus");
     }
 }

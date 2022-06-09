@@ -46,7 +46,7 @@
                                         @endif
                                         <div class="form-group">
                                             <label>Nama</label>
-                                            <input type="text" disabled value="{{ Auth::user()->nama }}" class="form-control">
+                                            <input type="text" name="nama" value="{{ Auth::user()->nama }}" class="form-control">
                                         </div>
 
                                         <div class="form-group">
@@ -132,15 +132,18 @@
 
 
                                         <div class="form-group">
-                                            <label>Password Lama</label>
-                                            <input type="text" name="password_lama" required class="form-control @if(session('error')) is-invalid @endif">
+                                            <label>Password Baru</label>
+                                            <input type="password" name="password_baru" required class="form-control @if(session('error')) is-invalid @endif">
                                             @if(session('error'))
                                                 <small class="text-danger">{{ session("error") }}</small>
                                             @endif
                                         </div>
                                         <div class="form-group">
-                                            <label>Password Baru</label>
-                                            <input type="text" name="password_baru" required class="form-control">
+                                            <label>Konfirmasi Password Baru</label>
+                                            <input type="password" name="password_baru_konfirmasi" required class="form-control  @if(session('error')) is-invalid @endif">
+                                            @if(session('error'))
+                                                <small class="text-danger">{{ session("error") }}</small>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

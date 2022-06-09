@@ -175,7 +175,12 @@
                              <div class="col-md">
                                  <div class="form-group">
                                      <label>Nomor Surat</label>
-                                     <input type="text" name="no_surat" class="form-control" required value="{{ $sr->no_surat }}">
+                                        <input type="text" name="no_surat_edit_{{ $sr->id }}" class="form-control @error("no_surat_edit_$sr->id") is-invalid @enderror" required value="{{ $sr->no_surat }}">
+                                            @error("no_surat_edit_$sr->id")
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                  </div>
                                  <div class="form-group">
                                      <label>Tanggal Diterima</label>
@@ -211,7 +216,7 @@
                                      <div class="input-group">
                                          <div class="custom-file">
                                              <input type="file" name="file" class="custom-file-input" accept="application/msword, application/pdf, .docx">
-                                             <label class="custom-file-label">Pilih dokumen</label>
+                                             <label class="custom-file-label">{{ $sr->lampiran }}</label>
                                          </div>
                                      </div>
                                      <small class="text-info">Dokumen surat, bisa berupa doc, docx, pdf, jpg dan
@@ -310,6 +315,12 @@ element.classList.add("active");
         @error("no_surat")
             $('#add_surat_masuk').modal('show')
         @enderror
+
+        @foreach ($surat as $sr)
+            @error("no_surat_edit_{$sr->id}")
+                $('#edit_surat_masuk_{{ $sr->id }}').modal('show')
+            @enderror
+        @endforeach
 
 
     });

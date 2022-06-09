@@ -9,6 +9,20 @@
      <!-- Content Row -->
      <div class="h3 pb-2">Data Nomor Arsip</div>
      <div class="row justify-content-center">
+         @if(session("pesan"))
+         <div class="col-12">
+             <div class="alert alert-success">
+                 {{ session('pesan') }}
+             </div>
+         </div>
+         @endif
+         @error("no_arsip")
+         <div class="col-12">
+             <div class="alert alert-danger">
+                 Nomor arsip telah digunakan
+             </div>
+         </div>
+         @endif
          <div class="col-xl-6 col-md-6 mb-4">
              <!-- DataTales Example -->
              <div class="card shadow mb-4">
@@ -112,11 +126,16 @@
                              <div class="col-md">
                                  <div class="form-group">
                                      <label>Nomor Arsip</label>
-                                     <input type="text" name="no_arsip" class="form-control" placeholder="Nomor Arsip" required>
+                                     <input type="text" name="no_arsip" class="form-control @error("no_arsip") is-invalid @enderror" placeholder="Nomor Arsip" required value="{{ old("no_arsip") }}">
+                                        @error("no_arsip")
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                  </div>
                                  <div class="form-group">
                                      <label>Lokasi</label>
-                                     <input type="text" name="lokasi" class="form-control" placeholder="Lokasi" required>
+                                     <input type="text" name="lokasi" class="form-control" placeholder="Lokasi" required {{ old("lokasi") }}>
                                  </div>
                              </div>
                          </div>
@@ -223,7 +242,12 @@
                              <div class="col-md">
                                  <div class="form-group">
                                      <label>Nomor Arsip</label>
-                                     <input type="text" name="no_arsip" class="form-control" placeholder="Nomor Arsip" required>
+                                     <input type="text" name="no_arsip" class="form-control @error("no_arsip") is-invalid @enderror" placeholder="Nomor Arsip" required value="{{ old("no_arsip") }}">
+                                     @error("no_arsip")
+                                     <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                     </span>
+                                    @enderror
                                  </div>
                                  <div class="form-group">
                                      <label>Lokasi</label>
@@ -252,4 +276,14 @@
 
  </div>
  <!-- End of Main Content -->
+ @endsection
+ @section("script")
+ <script>
+    $(document).ready(function(){
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").html(fileName);
+        });
+    });
+ </script>
  @endsection
