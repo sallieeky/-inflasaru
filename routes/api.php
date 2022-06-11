@@ -21,7 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/surat/surat-masuk/update-disposisi/{suratmasuk}', [SuratController::class, 'apiUpdateDisposisi']);
+Route::post('/surat/surat-masuk/update-disposisi/{suratmasuk}', [SuratController::class, 'apiUpdateDisposisiSuratMasuk']);
+Route::post('/surat/surat-keluar/update-disposisi/{suratkeluar}', [SuratController::class, 'apiUpdateDisposisiSuratKeluar']);
+
 Route::post('/arsip/surat-masuk/update-arsip/{suratmasuk}', [SuratController::class, 'apiUpdateIdArsipMasuk']);
 Route::post('/arsip/surat-keluar/update-arsip/{suratkeluar}', [SuratController::class, 'apiUpdateIdArsipKeluar']);
 

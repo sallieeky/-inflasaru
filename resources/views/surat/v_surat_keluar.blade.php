@@ -43,7 +43,16 @@
                              <td>{{ date("d M y", strtotime($sr->tgl_dikirim)) }}</td>
                              <td>{{ $sr->tujuan }}</td>
                              <td>{{ $sr->perihal }}</td>
-                             <td>{{ $sr->disposisi->nama }}</td>
+                             {{-- <td>{{ $sr->disposisi->nama }}</td> --}}
+                             <td>
+                                <div class="input-group">
+                                    <select class="custom-select disposisi_surat" id="disposisi_{{ $sr->id }}">
+                                        @foreach ($disposisi as $dp)
+                                           <option value="{{ $dp->id }}" @if($dp->id == $sr->id_disposisi) selected @endif>{{ $dp->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </td>
                              <td>
                                  <a href="{{ asset("storage/surat_keluar/" . $sr->lampiran) }}" class="btn btn-success"><i class="fa-solid fa-file-arrow-down"></i></a>
                              </td>
@@ -193,6 +202,14 @@
                                         <input type="text" name="perihal" class="form-control" placeholder="Perihal Surat" required value="{{ $sr->perihal }}">
                                     </div>
                                     <div class="form-group">
+                                        <label>Disposisi</label>
+                                        <select class="form-control" name="id_disposisi" required>
+                                            @foreach ($disposisi as $dp)
+                                               <option value="{{ $dp->id }}" @if($dp->id == $sr->id_disposisi) selected @endif>{{ $dp->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Lampiran</label>
                                         <div class="input-group">
                                             <div class="custom-file">
@@ -261,6 +278,29 @@ element2.classList.add("show");
 element1.classList.add("active");
 element.classList.add("active");
  </script>
+
+<script>
+    const disposisi_surat = document.querySelectorAll('.disposisi_surat');
+       disposisi_surat.forEach(function(disposisi_surat) {
+           disposisi_surat.addEventListener('change', function() {
+               const id_disposisi = this.value;
+               const id_surat = this.id.split('_')[1];
+               const url = '/api/surat/surat-keluar/update-disposisi/' + id_surat;
+               const data = {
+                   id_disposisi: id_disposisi,
+               };
+               fetch(url, {
+                   method: 'POST',
+                   body: JSON.stringify(data),
+                   headers: {
+                       'Content-Type': 'application/json'
+                   }
+               })
+               .then(response => response.json())
+               .then(data => {})
+           });
+       });
+</script>
  @endsection
  @section("script")
  <script>

@@ -11,7 +11,10 @@ class SuratController extends Controller
 {
     public function suratKeluar()
     {
-        $disposisi = Disposisi::all();
+        // get 3 terakhir disposisi tapi urutannya tetap terurut dari yang terbaru
+        $disposisi = Disposisi::orderBy('id', 'desc')->take(3)->get();
+        // urutkan disposisi berdasarkan id terkecil
+        $disposisi = $disposisi->sortBy('id');
         $surat = SuratKeluar::all();
         return view('surat.v_surat_keluar', compact("disposisi", "surat"));
     }
@@ -69,9 +72,14 @@ class SuratController extends Controller
         $surat = SuratMasuk::all();
         return view('surat.v_surat_masuk', compact("disposisi", "surat"));
     }
-    public function apiUpdateDisposisi(Request $request, SuratMasuk $suratmasuk)
+    public function apiUpdateDisposisiSuratMasuk(Request $request, SuratMasuk $suratmasuk)
     {
         $suratmasuk->update($request->all());
+        return response()->json(true);
+    }
+    public function apiUpdateDisposisiSuratKeluar(Request $request, SuratKeluar $suratkeluar)
+    {
+        $suratkeluar->update($request->all());
         return response()->json(true);
     }
     public function apiUpdateIdArsipMasuk(Request $request, SuratMasuk $suratmasuk)
